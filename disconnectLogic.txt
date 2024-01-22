@@ -1,0 +1,10 @@
+        include "database/connetion.php";
+        if(isset($dynamic_name) && !empty($dynamic_name)){
+            $query = $db->prepare("SELECT * FROM client WHERE id = ?");
+            $query->execute([$dynamic_name]);
+            if($query->rowCount() == 0){
+                return;
+            }
+            $query = $db->prepare("UPDATE client SET last_datetime=?, is_online=0 WHERE id = ?");
+            $query->execute([date("Y-m-d H:i:s"),$dynamic_name]);
+        }
